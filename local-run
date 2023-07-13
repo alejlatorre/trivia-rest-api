@@ -1,0 +1,44 @@
+#!/bin/bash
+
+display_help() {
+   echo "======================================"
+   echo "   Trivia APP Local Runner CLI"
+   echo "======================================"
+   echo "Syntax: local-run [command]"
+   echo
+   echo "---commands---"
+   echo "help               Print CLI help"
+   echo "start              Start Trivia local environment"
+   echo "cli                Enter Trivia CLI in local environment"
+   echo "stop               Stop Trivia local environment"
+   echo
+}
+
+start() {
+   docker compose -p trivia-rest-api up -d
+}
+
+cli() {
+   docker compose run --service-ports web bash
+}
+
+stop() {
+   docker compose -p trivia-rest-api down
+}
+
+
+case "$1" in
+start)
+   start
+   ;;
+cli)
+   cli
+   ;;
+stop)
+   stop
+   ;;
+*)
+   echo "No command specified, displaying help"
+   display_help
+   ;;
+esac
