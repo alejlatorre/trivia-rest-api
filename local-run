@@ -14,12 +14,16 @@ display_help() {
    echo
 }
 
+build_image() {
+   docker compose build
+}
+
 start() {
    docker compose -p trivia-rest-api up -d
 }
 
 cli() {
-   docker compose run --service-ports web bash
+   docker exec -it trivia-rest-api-web-1 bash
 }
 
 stop() {
@@ -28,8 +32,12 @@ stop() {
 
 
 case "$1" in
+build-and-start)
+   build_image
+   start $2
+   ;;
 start)
-   start
+   start $2
    ;;
 cli)
    cli
